@@ -17,8 +17,8 @@ class GradeBook:
         self.course_list.append(course)
         self.save_data()
 
-    def register_student_for_course(self, student, course, grade):
-        student.register_for_course(course, grade)
+    def register_student_for_course(self, student, course):
+        student.register_for_course(course)
         self.save_data()
 
     def save_data(self):
@@ -27,7 +27,7 @@ class GradeBook:
             "courses": [c.to_dict() for c in self.course_list]
         }
         with open(self.file_name, "w") as f:
-            json.dump(data, f, indent=4)
+            json.dump(data, f)
 
     def load_data(self):
         if os.path.exists(self.file_name):
@@ -37,19 +37,13 @@ class GradeBook:
                 self.course_list = [Course.from_dict(d) for d in data["courses"]]
 
     def calculate_ranking(self):
-        for student in self.student_list:
-            student.calculate_GPA()
-        self.student_list.sort(key=lambda student: student.GPA, reverse=True)
-        return self.student_list
+        # TO DO: implement GPA calculation
+        pass
 
     def search_by_grade(self, grade_range):
-        grade_min, grade_max = map(float, grade_range.split('-'))
-        result = [student for student in self.student_list if any(grade_min <= grade <= grade_max for _, grade in student.courses_registered)]
-        return result
+        # TO DO: implement search by grade
+        pass
 
     def generate_transcript(self, student):
-        transcript = f"Transcript for {student.names} ({student.email}):\n"
-        for course, grade in student.courses_registered:
-            transcript += f"  {course.name}: {grade}\n"
-        transcript += f"GPA: {student.GPA:.2f}\n"
-        print(transcript)
+        # TO DO: implement transcript generation
+        pass
